@@ -211,5 +211,3 @@ if st.session_state["current_chat"]:
                 save_chat_to_db(chat_id, chat_name, current_chat["messages"], current_chat["pdf_name"], current_chat["pdf_path"], current_chat["pdf_uuid"])
 else:
     st.write("No chat selected. Use the sidebar to create or select a chat.")
-
-
