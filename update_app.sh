@@ -5,29 +5,21 @@ set -e  # Exit on any error
 date
 echo "Updating Python application on VM..."
 
-REPO_URL="git@github.com:taif300/capstone_project.git"
+REPO_URL="git@github.com:taif300/capstone_project.git"  # ✅ Use SSH
 BRANCH="main"
-HOME_DIR="$HOME"
+HOME_DIR=$(eval echo ~$USER)
 APP_DIR="$HOME_DIR/capstone_project"
-
-# Ensure SSH key exists
-if [ ! -f "$HOME/.ssh/id_rsa" ]; then
-    echo "ERROR: SSH key not found! Ensure you have an SSH key added to GitHub."
-    exit 1
-fi
 
 # Update code
 if [ -d "$APP_DIR" ]; then
-    cd "$APP_DIR"
-    git fetch origin
-    git reset --hard origin/$BRANCH
+    sudo -u azureuser bash -c "cd $APP_DIR && git fetch origin && git reset --hard origin/$BRANCH"
 else
-    git clone -b "$BRANCH" "$REPO_URL" "$APP_DIR"
+    sudo -u azureuser git clone -b "$BRANCH" "$REPO_URL" "$APP_DIR"
 fi
 
 # Install dependencies
-"$HOME_DIR/miniconda3/envs/project/bin/pip" install --upgrade pip
-"$HOME_DIR/miniconda3/envs/project/bin/pip" install -r "${APP_DIR}/requirements.txt"
+sudo -u azureuser $HOME_DIR/miniconda3/envs/project/bin/pip install --upgrade pip
+sudo -u azureuser $HOME_DIR/miniconda3/envs/project/bin/pip install -r "${APP_DIR}/requirements.txt"
 
 # Restart services and check status
 sudo systemctl restart backend
