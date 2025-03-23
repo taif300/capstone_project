@@ -9,7 +9,7 @@ REPO_URL="github.com/taif300/capstone_project.git"
 BRANCH="main"
 GITHUB_TOKEN=$TOKEN  # Passed securely via protectedSettings
 HOME_DIR=$(eval echo ~$USER)
-APP_DIR="$HOME_DIR/chatbot-project"
+APP_DIR="$HOME_DIR/capstone_project"
 
 # Update code
 if [ -d "$APP_DIR" ]; then
