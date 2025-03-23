@@ -37,14 +37,13 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # Update the VM with secure token passing
     - name: Azure VM Update
       run: |
-        az vm extension set \
-          --resource-group ${{ secrets.RESOURCE_GROUP }} \
-          --vm-name ${{ secrets.VM_NAME }} \
-          --name CustomScript \
-          --force-update \
-          --publisher Microsoft.Azure.Extensions \
-          --settings '{"fileUris": []}' \
-          --protected-settings "{\"commandToExecute\": \"export GITHUB_TOKEN='${{ secrets.TOKEN }}' && sudo -u azureuser bash /home/azureuser/capstone_project/update_app.sh\"}"
+       az vm extension set \
+         --resource-group ${{ secrets.RESOURCE_GROUP }} \
+         --vm-name ${{ secrets.VM_NAME }} \
+         --name CustomScript \
+         --force-update \
+         --publisher Microsoft.Azure.Extensions \
+         --settings '{"fileUris": []}' \
+         --protected-settings @.github/azure-settings.json
