@@ -36,22 +36,16 @@ jobs:
       uses: azure/login@v2.2.0
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Create JSON File
-      run: |
-        echo -n '{  "commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && sudo -u azureuser bash /home/azureuser/capstone_project/update_app.sh"
-          }' > protected_settings.json
-
     
 
     # Update the VM with secure token passing
     - name: Azure VM Update
       run: |
-        az vm extension set \
-            --resource-group ${{ secrets.RESOURCE_GROUP }} \
-            --vm-name ${{ secrets.VM_NAME }} \
-            --name CustomScript \
-            --force-update \
-            --publisher Microsoft.Azure.Extensions \
-            --settings '{"fileUris": []}' \
-            --protected-settings @protected_settings.json
+       az vm extension set \
+        --resource-group ${{ secrets.RESOURCE_GROUP }} \
+        --vm-name ${{ secrets.VM_NAME }} \
+        --name CustomScript \
+        --force-update \
+        --publisher Microsoft.Azure.Extensions \
+        --settings '{"fileUris": []}' \
+        --protected-settings @.github/azure-settings.json
