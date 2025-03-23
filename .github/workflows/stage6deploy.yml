@@ -39,9 +39,9 @@ jobs:
 
     - name: Create JSON File
       run: |
-        echo '{
-           "commandToExecute": "export GITHUB_TOKEN=\"${{ secrets.TOKEN }}\" && sudo -u azureuser bash /home/azureuser/capstone_project/update_app.sh"
-             }' > protected_settings.json
+        echo -n '{  "commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && sudo -u azureuser bash /home/azureuser/capstone_project/update_app.sh"
+          }' > protected_settings.json
+
     
 
     # Update the VM with secure token passing
