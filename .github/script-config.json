@@ -1,0 +1,3 @@
+{
+  "commandToExecute": "export GITHUB_TOKEN=*** && sudo -u azureuser bash /home/azureuser/capstone_project/update_app.sh"
+}
