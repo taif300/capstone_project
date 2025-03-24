@@ -1,4 +1,4 @@
-name: Python App CI/CD Pipeline with Direct Deployment
+name: Python App CI/CD Pipeline with Direct Deploymentt
 
 on:
   push:
