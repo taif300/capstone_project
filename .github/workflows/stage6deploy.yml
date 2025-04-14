@@ -39,7 +39,7 @@ jobs:
     
 
     # Update the VM with secure token passing
-    - name: Azure VM Update
+    - name: Azure VMss Update
       run: |
        az vm extension set \
         --resource-group ${{ secrets.RESOURCE_GROUP }} \
