@@ -19,7 +19,7 @@ KEY_VAULT_NAME="$4"
 echo "Setting up conda environment..."
 source "$HOME_DIR/miniconda3/etc/profile.d/conda.sh"
 if ! conda env list | grep -q "^project "; then
-    conda create -y -n project python=3.11
+    conda create -y -n project python=3.9
 fi
 
 # Clone the repository
