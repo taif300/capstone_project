@@ -35,12 +35,12 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt --target=".python_packages/lib/site-packages"
 
       # Optional: Add step to run tests here
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip ./* .python_packages/*
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -48,7 +48,7 @@ jobs:
           name: python-app
           path: |
             release.zip
-            !venv/
+            
 
   deploy:
     runs-on: ubuntu-latest
@@ -72,7 +72,11 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1252452F3E2B4AC6A2D6FCD8C32C7581 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_404669018BDC4271A732CA85B462F8AD }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9887AB6E050242F0A612E17841D42999 }}
-
+          
+      - name: Set Application Settings
+        run: |
+          az functionapp config appsettings set --name backend-service-new-2025 --resource-group chatbot-RG --settings "FUNCTIONS_WORKER_RUNTIME=python" "KEY_VAULT_NAME=stage7-8secrets" "APPINSIGHTS_INSTRUMENTATIONKEY=azurerm_application_insights.ai.instrumentation_key"
+          
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
         id: deploy-to-function
@@ -80,4 +84,5 @@ jobs:
           app-name: 'backend-service-new-2025'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
